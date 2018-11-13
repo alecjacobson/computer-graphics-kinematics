@@ -563,7 +563,6 @@ $$
 > the [Levenberg-Marquadt
 > algorithm](https://en.wikipedia.org/wiki/Levenberg–Marquardt_algorithm).
 
-
 #### Finite Differencing
 
 But how do we compute the kinematic Jacobian $\J$? Since each entry in $\x$ is
@@ -641,6 +640,14 @@ it as we would be better off spending our computational efforts improving the
 descent _direction_ for the next step. So, starting with a large value $α$
 (e.g., 10,000), we decrease $α$ by a constant factor (e.g., $½$) until our
 inequality passes.
+
+Depending on the configuration, it may or may not be possible to exactly satisfy
+the constraints (i.e., $E = 0$). But after many iterations, the solution should
+converge to a [local minimum](https://en.wikipedia.org/wiki/Maxima_and_minima)
+(i.e., $E>0$, but $dE/d\a = 0$). In our assignment, a thin line will appear if
+the user-given constraint is not coincident with the end-effector tip position.
+
+![](images/knight-dab.gif)
  
 ### Linear Blend Skinning
 
@@ -659,8 +666,13 @@ this model. Each vertex $i$ of the mesh is assigned a weight $w_{i,j}$ for each
 bone $j$ corresonding to how much it is "attached" to that bone on a scale of 0%
 to 100%. Generally, if the rest position of the vertex $\hat{\v}_i$ is nearer to
 a bone $j$ then its weight $w_{i,j}$ will be larger. A vertex in the middle of
-the elblow may have  a weight of 50% for the upper arm and 50% the forearm and
+the elbow may have  a weight of 50% for the upper arm and 50% the forearm and
 0% for all other bones (toes, fingers, legs, spine, etc.).
+
+Smoothly varying weights produce a smooth deformation. In constrast,
+piecewise-constant weights lead to a piece-wise rigid deformation.
+
+![](images/beast-weights.gif)
 
 The "pose" position $\v_i$ of this vertex $i$ will be computed as a weighted
 average or linear combination of each bone's pose transformation $\T_j$ applied
@@ -676,6 +688,8 @@ $$
 
 > **Question:** What happens to per-vertex normals after applying a skinning
 > deformation?
+>
+> **Hint:** 🤯
 
 Linear blend skinning has many defects. Good "rigging artists" can mitigate
 these by carefully painting (yes, painting) weight functions and position the
@@ -688,6 +702,13 @@ rotations as matrices.
 > **Hint:** It's not $\Rot_x(0°)$.
 
 ## Tasks
+
+### White List
+
+ - `Eigen::Affine3d`
+ - [`Eigen::AngleAxis`](https://eigen.tuxfamily.org/dox/classEigen_1_1AngleAxis.html)
+ - `#include <Eigen/Geometry>`
+ - c++ lambda functions and capturing `#include <functional>`
 
 ### Black List
 
