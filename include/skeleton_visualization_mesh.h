@@ -4,6 +4,16 @@
 #include "Skeleton.h"
 #include <Eigen/Core>
 
+// Visualize a skeleton as a 3D mesh using long oriented pyramids to represent
+// the bones.
+//
+// Inputs:
+//   skeleton  #bones list of bone objects
+//   thickness  amount to scale in non-axial directions
+// Outputs:
+//   SV  #SV by 3 list of mesh vertex positions
+//   SF  #SF by 3 list of triangle indices into SV
+//   SV  #SF by 3 list of face colors
 void skeleton_visualization_mesh(
   const Skeleton & skeleton,
   const double thickness,
@@ -25,11 +35,11 @@ void skeleton_visualization_mesh(
   forward_kinematics(skeleton,T);
   Eigen::MatrixXd BV(5,3);
   BV << 
-    -1,-1,-1,
-    -1, 1,-1,
-    -1, 1, 1,
-    -1,-1, 1,
-     0, 0, 0;
+     0,-1,-1,
+     0, 1,-1,
+     0, 1, 1,
+     0,-1, 1,
+     1, 0, 0;
   BV.rightCols(2) *= thickness;
   Eigen::MatrixXi BF(6,3);
   BF <<
@@ -61,7 +71,7 @@ void skeleton_visualization_mesh(
       if(skeleton[b].parent_index<0) continue;
       const Eigen::Affine3d& rTp = skeleton[skeleton[b].parent_index].rest_T;
       const Eigen::Affine3d& rTb = skeleton[b].rest_T;
-      const double len = (rTb.translation()-rTp.translation()).norm();
+      const double len = skeleton[b].length;
       Eigen::MatrixXd BVk(BV.rows(),3);
       for(int v = 0;v<BV.rows();v++)
       {

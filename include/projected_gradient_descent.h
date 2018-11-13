@@ -4,7 +4,7 @@
 #include <Eigen/Core>
 #include <functional>
 
-// 
+// Conduct `max_iters` iterations of projected gradient descent.
 //
 // Inputs:
 //   f  function that computes scalar objective value at a given z

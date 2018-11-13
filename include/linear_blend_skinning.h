@@ -6,6 +6,10 @@
 #include <Eigen/Geometry>
 #include <vector>
 
+// Given a mesh with vertices in their rest positions, a skeleton, bone
+// transformations, and per-vertex weights, compute the linear blend skinning
+// deformation.
+//
 // Inputs:
 //   V  #V by 3 list of rest pose mesh vertex positions
 //   skeleton  #T list of skeleton bones 

@@ -85,7 +85,10 @@ bool read_model_and_rig_from_json(
   for(const json & jbone : j["bones"])
   {
     skeleton.emplace_back(
-      jbone["parent_id"], jbone["weight_id"], parse_affine(jbone["rest_T"]));
+      jbone["parent_id"], 
+      jbone["weight_id"], 
+      parse_affine(jbone["rest_T"]),
+      jbone["length"]);
     if(jbone.count("xzx_min"))
     {
       skeleton.back().xzx_min = Eigen::Vector3d(jbone["xzx_min"][0],jbone["xzx_min"][1],jbone["xzx_min"][2]);
