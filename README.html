@@ -2,22 +2,18 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>README.md</title>
+	<link type="text/css" rel="stylesheet" href="css/github-markdown.css"/>
+<link rel="stylesheet" href="css/github-markdown.css">
+<style>
+.markdown-body {
+box-sizing: border-box;
+min-width: 200px;
+max-width: 980px;
+margin: 0 auto;
+padding: 45px;
+}
 </head>
 <body>
-
-<!-- For some reason having a "title: markdown" line triggers multimarkdown
-into adding a proper header and DOCTYPE necessary for unicode text -->
-
-<p><link rel="stylesheet" href="file:///Users/ajx/.markdown/github-markdown.css">
-<style>
- .markdown-body {
- box-sizing: border-box;
- min-width: 200px;
- max-width: 980px;
- margin: 0 auto;
- padding: 45px;
- }</p>
 
 <pre><code>@media (max-width: 767px) {
     .markdown-body {
@@ -32,6 +28,63 @@ into adding a proper header and DOCTYPE necessary for unicode text -->
     MathJax.Hub.Config({ TeX: { equationNumbers: {autoNumber: "all"} } });
 </script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<div style="display:none">
+<span class="math">\(\newcommand{\A}{\mat{A}}\)</span>
+<span class="math">\(\newcommand{\B}{\mat{B}}\)</span>
+<span class="math">\(\newcommand{\C}{\mat{C}}\)</span>
+<span class="math">\(\newcommand{\D}{\mat{D}}\)</span>
+<span class="math">\(\newcommand{\E}{\mat{E}}\)</span>
+<span class="math">\(\newcommand{\F}{\mat{F}}\)</span>
+<span class="math">\(\newcommand{\G}{\mat{G}}\)</span>
+<span class="math">\(\newcommand{\H}{\mat{H}}\)</span>
+<span class="math">\(\newcommand{\I}{\mat{I}}\)</span>
+<span class="math">\(\newcommand{\J}{\mat{J}}\)</span>
+<span class="math">\(\newcommand{\K}{\mat{K}}\)</span>
+<span class="math">\(\newcommand{\L}{\mat{L}}\)</span>
+<span class="math">\(\newcommand{\M}{\mat{M}}\)</span>
+<span class="math">\(\newcommand{\N}{\mat{N}}\)</span>
+<span class="math">\(\newcommand{\One}{\mathbf{1}}\)</span>
+<span class="math">\(\newcommand{\P}{\mat{P}}\)</span>
+<span class="math">\(\newcommand{\Q}{\mat{Q}}\)</span>
+<span class="math">\(\newcommand{\Rot}{\mat{R}}\)</span>
+<span class="math">\(\newcommand{\R}{\mathbb{R}}\)</span>
+<span class="math">\(\newcommand{\S}{\mathcal{S}}\)</span>
+<span class="math">\(\newcommand{\T}{\mat{T}}\)</span>
+<span class="math">\(\newcommand{\U}{\mat{U}}\)</span>
+<span class="math">\(\newcommand{\V}{\mat{V}}\)</span>
+<span class="math">\(\newcommand{\W}{\mat{W}}\)</span>
+<span class="math">\(\newcommand{\X}{\mat{X}}\)</span>
+<span class="math">\(\newcommand{\Y}{\mat{Y}}\)</span>
+<span class="math">\(\newcommand{\argmax}{\mathop{\text{argmax}}}\)</span>
+<span class="math">\(\newcommand{\argmin}{\mathop{\text{argmin}}}\)</span>
+<span class="math">\(\newcommand{\a}{\vec{a}}\)</span>
+<span class="math">\(\newcommand{\b}{\vec{b}}\)</span>
+<span class="math">\(\newcommand{\c}{\vec{c}}\)</span>
+<span class="math">\(\newcommand{\d}{\vec{d}}\)</span>
+<span class="math">\(\newcommand{\e}{\vec{e}}\)</span>
+<span class="math">\(\newcommand{\f}{\vec{f}}\)</span>
+<span class="math">\(\newcommand{\g}{\vec{g}}\)</span>
+<span class="math">\(\newcommand{\mat}[1]{\mathbf{#1}}\)</span>
+<span class="math">\(\newcommand{\min}{\mathop{\text{min}}}\)</span>
+<span class="math">\(\newcommand{\m}{\vec{m}}\)</span>
+<span class="math">\(\newcommand{\n}{\vec{n}}\)</span>
+<span class="math">\(\newcommand{\p}{\vec{p}}\)</span>
+<span class="math">\(\newcommand{\q}{\vec{q}}\)</span>
+<span class="math">\(\newcommand{\r}{\vec{r}}\)</span>
+<span class="math">\(\newcommand{\transpose}{{\mathsf T}}\)</span>
+<span class="math">\(\newcommand{\tr}[1]{\mathop{\text{tr}}{\left(#1\right)}}\)</span>
+<span class="math">\(\newcommand{\s}{\vec{s}}\)</span>
+<span class="math">\(\newcommand{\t}{\vec{t}}\)</span>
+<span class="math">\(\newcommand{\u}{\vec{u}}\)</span>
+<span class="math">\(\newcommand{\vec}[1]{\mathbf{#1}}\)</span>
+<span class="math">\(\newcommand{\x}{\vec{x}}\)</span>
+<span class="math">\(\newcommand{\y}{\vec{y}}\)</span>
+<span class="math">\(\newcommand{\z}{\vec{z}}\)</span>
+<span class="math">\(\newcommand{\0}{\vec{0}}\)</span>
+<span class="math">\(\renewcommand{\v}{\vec{v}}\)</span>
+<!-- https://github.com/mathjax/MathJax/issues/1766 -->
+<span class="math">\(\renewcommand{\hat}[1]{\widehat{#1}}\)</span>
+</div>
 
 <h1 id="computergraphics–kinematics">Computer Graphics – Kinematics</h1>
 
@@ -55,16 +108,25 @@ into adding a proper header and DOCTYPE necessary for unicode text -->
 <h3 id="skeleton">Skeleton</h3>
 
 <p>In this assignment we&#8217;ll consider animating shapes <em>rigged</em> to an internal
-skeleton. The skeleton is a user interface (UI) <em>metaphor</em>. A skeleton is a
+skeleton. The skeleton is a <a href="https://en.wikipedia.org/wiki/Interface_metaphor">(graphical) user interface (UI)
+<em>metaphor</em></a>. A skeleton is a
 <a href="https://en.wikipedia.org/wiki/Tree_(data_structure)">tree</a> of rigid bones, not
 unlike the <a href="https://en.wikipedia.org/wiki/Bone">anatomical bones</a> in a human or
 animal.</p>
 
 <p>Each &#8220;bone&#8221; in the skeleton is really a UI widget for visualizing and
 controlling a 3D <a href="https://en.wikipedia.org/wiki/Rigid_transformation">rigid
-transformation</a>.</p>
+transformation</a>. A common
+visualization of 3D bone in computer graphics is a long, pointed <a href="https://en.wikipedia.org/wiki/Pyramid_(geometry)">pyramid
+shape</a>. This reveals the
+twisting rotation as well as the tree hierarchy: the bone points toward its
+children.</p>
 
-<p>Unlike anatomy where the brain triggers muscles to flex and pull the passive
+<figure>
+<img src="images/robot-arm-wireframe.gif" alt="" />
+</figure>
+
+<p><em>Unlike</em> anatomy where the brain triggers muscles to flex and pull the passive
 bones around, the bones of a skeleton rig will define the pose of a shape.</p>
 
 <p>For each bone, we will consider <em><strong>three</strong></em> &#8220;states&#8221;.</p>
@@ -72,12 +134,35 @@ bones around, the bones of a skeleton rig will define the pose of a shape.</p>
 <h4 id="1.canonicalbone">1. Canonical Bone</h4>
 
 <p>The &#8220;Canonical Bone&#8221; of length <span class="math">\(\ell\)</span> lies along the <span class="math">\(x\)</span>-axis with its &#8220;tail&#8221; at
-the origin <span class="math">\((0,0,0)\)</span>, its &#8220;tip&#8221; at <span class="math">\((\ell,0,0)\)</span>. The bone is endowed with an
+the origin <span class="math">\((0,0,0)\)</span>, its &#8220;tip&#8221; at <span class="math">\((\ell,0,0)\)</span>. </p>
+
+<figure>
+<img src="images/canonical-bone.png" alt="" />
+</figure>
+
+<p>The bone is endowed with an
 orientation or <a href="https://en.wikipedia.org/wiki/Moving_frame">frame</a>. This helps
-define a canonical <em>bending</em> direction. For example, in this assignment, we will
-define bending as rotating about the <span class="math">\(z\)</span>-axis in the canonical frame. <em>Twisting</em>
-is accomplished by rotating about the <span class="math">\(x\)</span>-axis. Composing a twist, bend and
-another twist spans all possible 3D rotations. We call the three angles composed
+define a canonical <em>twisting</em> direction. We will define twisting as rotating about the <span class="math">\(x\)</span>-axis in the canonical frame. </p>
+
+<figure>
+<img src="images/canonical-twisting.gif" alt="" />
+</figure>
+
+<p>For example, in this assignment, <em>bending</em> is accomplished by rotating about the
+<span class="math">\(z\)</span>-axis in the canonical frame.</p>
+
+<figure>
+<img src="images/canonical-bending.gif" alt="" />
+</figure>
+
+<p>Composing a twist, bend and
+another twist spans all possible 3D rotations. </p>
+
+<figure>
+<img src="images/canonical-rotating.gif" alt="" />
+</figure>
+
+<p>We call the three angles composed
 into a rotation this way, <a href="https://en.wikipedia.org/wiki/Euler_angles">Euler angles</a> (not to be confused with
 the <a href="https://en.wiktionary.org/wiki/homophonous">homophonous</a> <a href="https://upload.wikimedia.org/wikipedia/commons/9/97/Odessa_TX_Oil_Well_with_Lufkin_320D_pumping_unit.gif">Oiler
 angles</a>).</p>
@@ -88,7 +173,13 @@ angles</a>).</p>
 <a href="#1.canonicalbone">canonical bone</a> to its position <em>and orientation</em> in the
 undeformed model. Maintaining the rigidity of the bone, this means for each bone
 there&#8217;s a rigid transformation <span class="math">\(\hat{\T} = (\hat{\Rot} \quad \hat{\t} ) ∈
-\R^{3×4}\)</span> that places its tail and tip to the desired positions in the model. We
+\R^{3×4}\)</span> that places its tail and tip to the desired positions in the model. </p>
+
+<figure>
+<img src="images/rest-bone.png" alt="" />
+</figure>
+
+<p>We
 use the convention that the &#8220;canonical tail&#8221; (the origin <span class="math">\((0,0,0)\)</span>) is mapped to
 the &#8220;rest tail&#8221; inside the model. This means that the <em>translation</em> part of the
 matrix <span class="math">\(\hat{\T}\)</span> is simply the tail position, <span class="math">\(\hat{\s}∈\R^3\)</span>:
@@ -121,10 +212,10 @@ meaningful direction. For example, we may twist a <a href="https://en.wikipedia.
 around the <span class="math">\(z\)</span>-axis means bending at the
 <a href="https://en.wikipedia.org/wiki/Knee">knee</a>.</p>
 
-<p>This rest transformations <span class="math">\(\hat{\T}\)</span> <em>place</em> each bone inside the undeformed
-shape. They do not measure any deformation of the shape from its original
-position. Thus, the <em>pose</em> of each bone will be measured <em>relative</em> to the &#8220;rest
-bone&#8221;.</p>
+<p>Each rest transformation <span class="math">\(\hat{\T}\)</span> <em>places</em> its corresponding bone inside the
+undeformed shape. The rest transformations do not measure any deformation of the
+shape from its original position. Thus, the <em>pose</em> of each bone will be measured
+<em>relative</em> to the &#8220;rest bone&#8221;.</p>
 
 <h4 id="3.posebone">3. Pose Bone</h4>
 
@@ -139,6 +230,10 @@ rest points <span class="math">\(\hat{x} ∈ \R³\)</span> to its corresponding 
 \x = \T \hat{\x}.
 $$</p>
 
+<figure>
+<img src="images/beast-pose-bone.gif" alt="" />
+</figure>
+
 <p><span class="math">\(\T\)</span> is expressed as a <em>global</em> mapping of any point in the rest reference frame
 to its pose position. This makes it convenient for <a href="#linearblendskinning">blending transformations
 (see below)</a>, but it&#8217;s not so obvious how to pick coherent
@@ -150,7 +245,7 @@ and so on.</p>
 <h3 id="forwardkinematics">Forward Kinematics</h3>
 
 <p>One way to determine the rigid pose transformations <span class="math">\(\T_i ∈ \R^{3×4}\)</span> for each
-bone <span class="math">\(i\)</span> in a skeleton is to aggregate <em>relative rotations</em> <span class="math">\(\overline{\R}_i ∈
+bone <span class="math">\(i\)</span> in a skeleton is to aggregate <em>relative rotations</em> <span class="math">\(\overline{\Rot}_i ∈
 \R^{3×3}\)</span> between a bone <span class="math">\(i\)</span> and its parent bone <span class="math">\(p_i\)</span> in the skeletal tree.
 The final transformation at some bone <span class="math">\(i\)</span> deep in the skeletal tree is computed
 via a recursive equation.</p>
@@ -236,16 +331,20 @@ will produce a smooth animation. Fancier interpolation such as the
 control of <a href="https://en.wikipedia.org/wiki/12_basic_principles_of_animation#Slow_In_and_Slow_Out">easing between key
 poses</a>.</p>
 
+<figure>
+<img src="images/hand-animation-sped-up.gif" alt="" />
+</figure>
+
 <p>In this assignment, we will interpolate Euler angles directly. This works well
 when only a single angle is changing at a time. However, <a href="https://en.wikipedia.org/wiki/Gimbal_lock">Euler angles do not
 provide easy movement in every rotational
 direction</a>. Euler angles model
 rotations as <em>twist-bend-twist</em>. For our canonical bones, bending around the
 <span class="math">\(z\)</span>-axis is easy, but bending around the <span class="math">\(y\)</span>-axis requires first twisting by
-<span class="math">\(90°\)</span>.</p>
+<span class="math">\(90°\)</span> and then &#8220;un&#8221;-twisting by <span class="math">\(-90°\)</span> after bending.</p>
 
 <p>So, for more complex interpolation of rotations, a different representation such
-as <a href="https://en.wikipedia.org/wiki/Slerp">quaternions</a> would be needed. This is
+as <a href="https://en.wikipedia.org/wiki/Slerp">unit quaternions</a> would be needed. This is
 outside the scope of this assignment.</p>
 
 <h3 id="inversekinematics">Inverse Kinematics</h3>
@@ -257,8 +356,8 @@ shoulder, &#8230; This
 <a href="https://en.wikipedia.org/wiki/Direct_manipulation_interface">indirect</a> control
 makes it difficult to achieve basic poses. Instead, we can treat the problem of
 setting relative rotations of internal bones (shoulder, elbow, hand, &#8230;) as an
-optimization problem subject to a constraint that the finger goes <em>directly</em>
-where we want.</p>
+optimization problem where we try to minimize the distance between the tip of
+the finger and where we want it to be.</p>
 
 <p>Stated mathematically, for a skeleton with <span class="math">\(m\)</span> bones, if we create a vector
 <span class="math">\(\a ∈ \R^{3m}\)</span> stacking all the Euler angles of each bone vertically:
@@ -284,7 +383,7 @@ with respect to the (global, non-relative) pose positions of certains bones
 bone of the skeletal tree, called an <a href="https://en.wikipedia.org/wiki/Robot_end_effector">end
 effector</a>). For example, we
 then we could design our energy to measure the squared distance between the pose
-tip <span class="math">\(\x_b of some bone $b\)</span> and a desired goal location <span class="math">\(\q∈\R³\)</span>:</p>
+tip <span class="math">\(\x_b\)</span> of some bone <span class="math">\(b\)</span> and a desired goal location <span class="math">\(\q∈\R³\)</span>:</p>
 
 <p>$$
 E(\x_b) = ‖\x_b - \q‖².
@@ -306,44 +405,58 @@ $$</p>
 
 <p>We can design arbitrarily complex energies to satisfy our interaction needs. In
 this assignment, we consider that there is a list of constrained end effectors
-<span class="math">\(b = \{b₁,b₂,…,b_k\}\)</span>. Our energy will have two terms.</p>
+<span class="math">\(b = \{b₁,b₂,…,b_k\}\)</span> and our objective is that all selected end effectors <span class="math">\(b_i\)</span>
+go to their prescribed locations (provided by the mouse-drag UI).
+using the simple squared distance measure above.</p>
 
-<p>First, for a certain constrained end effector <span class="math">\(b_j\)</span> we ask that it lies as close
-as possible to the <a href="https://en.wikipedia.org/wiki/Ray_tracing_(graphics)">viewing
-ray</a> through the user&#8217;s
-<a href="https://en.wikipedia.org/wiki/Pointer_(user_interface)">mouse pointer</a>.
-We can measure the distance between some point <span class="math">\(\x\)</span> and the line passing
-through the camera/eye location <span class="math">\(\e\)</span> and the mouse location <em>unprojected</em> onto
-its 3D position on the screen placed in the scene at <span class="math">\(\m\)</span> using:
-$$
-E_\text{mouse}(\x) = \left|\left| (\x - \m) - \left((\x - \m)⋅\frac{\e-\m}{‖\e-\m‖}\right)\frac{\e-\m}{‖\e-\m‖}\right|\right|^2.
-$$
-This formula can be simplified to a much simpler expression since <span class="math">\(\m\)</span> and <span class="math">\(\e\)</span>
-do not depend on <span class="math">\(\x\)</span> (left to the reader/implementor).</p>
-
-<blockquote>
-<p><strong>Question:</strong> How would you <em>alternatively</em> write this term by measuring
-distances in image space?</p>
-
-<p><strong>Hint:</strong> 📽</p>
-</blockquote>
-
-<p>Second, for all of the other end effectors <span class="math">\(b_i \left|\right. i≠j\)</span>, we will
-constrain their positions to their rest locations <span class="math">\(\hat{\x}_{b_i}\)</span>, using the
-simple squared distance measure above.</p>
-
-<p>The goal of inverse kinematics is to minimize the sum of these energies over all
-choices of <span class="math">\(\a\)</span>:</p>
+<p>So, over all choices of <span class="math">\(\a\)</span> we&#8217;d like to optimize:</p>
 
 <p>$$
 \min_{\a} \quad
 \underbrace{
-E_{\text{mouse}}(\x_{b_j}(\a)) +
-∑\limits_{i≠j} ‖\x_{b_i}(\a) - \hat{\x}_{b_i}‖²
+∑\limits_{i=1}^k ‖\x_{b_i}(\a) - \hat{\x}_{b_i}‖²
 }_{E(\x_b (\a))}
 $$</p>
+<!--
+Our energy will have two terms.
 
-<p>We may further constrain our problem by imposing
+First, for a certain constrained end effector $b_j$ we ask that it lies as close
+as possible to the [viewing
+ray](https://en.wikipedia.org/wiki/Ray_tracing_(graphics)) through the user's
+[mouse pointer](https://en.wikipedia.org/wiki/Pointer_(user_interface)). 
+We can measure the distance between some point $\x$ and the line passing
+through the camera/eye location $\e$ and the mouse location _unprojected_ onto
+its 3D position on the screen placed in the scene at $\m$ using:
+$$
+E_\text{mouse}(\x) = \left|\left| (\x - \m) - \left((\x - \m)⋅\frac{\e-\m}{‖\e-\m‖}\right)\frac{\e-\m}{‖\e-\m‖}\right|\right|^2.
+$$
+This formula can be simplified to a much simpler expression since $\m$ and $\e$
+do not depend on $\x$ (left to the reader/implementor).
+
+
+> **Question:** How would you _alternatively_ write this term by measuring
+> distances in image space?
+>
+> **Hint:** 📽
+>
+
+Second, for all of the other end effectors $b_i \left|\right. i≠j$, we will
+constrain their positions to their rest locations $\hat{\x}_{b_i}$, using the
+simple squared distance measure above.
+
+The goal of inverse kinematics is to minimize the sum of these energies over all
+choices of $\a$:
+
+$$
+\min_{\a} \quad
+\underbrace{
+E_{\text{mouse}}(\x_{b_j}(\a)) + 
+∑\limits_{i≠j} ‖\x_{b_i}(\a) - \hat{\x}_{b_i}‖²
+}_{E(\x_b (\a))}
+$$
+-->
+
+<p>We will further constrain our problem by imposing
 <a href="https://en.wikipedia.org/wiki/Constrained_optimization#Inequality_constraints">upper and lower bounds</a>
 on our angles <span class="math">\(\a\)</span>. These correspond to joint limits. For example, the joint
 limits of a hinge or elbow type joint may look like:
@@ -361,6 +474,10 @@ These would ensure that our joint cannot twist, and can only bend in one directi
 $$
 where <span class="math">\(\a^{\text{min}}/\a^{\text{max}}\)</span> stack lower/upper bounds correspondingly to <span class="math">\(\a\)</span>.</p>
 
+<figure>
+<img src="images/ikea-lamp-ik.gif" alt="" />
+</figure>
+
 <p>This type of minimization is non-trivial. Our energy is a quadratic <a href="https://en.wikipedia.org/wiki/Linear_least_squares">sum of
 squares</a> in <span class="math">\(\x_b\)</span>, but
 <span class="math">\(\x_b\)</span> is a non-linear function of <span class="math">\(\a\)</span>. In turn, this means to minimize <span class="math">\(E\)</span> as
@@ -369,19 +486,22 @@ squares</a> problem. </p>
 
 <h4 id="projectedgradientdescent">Projected Gradient Descent</h4>
 
-<p>Faced with a bound constrained non-linear optimization problem, an immediate
-idea is to construct an initial guess and then iteratively improve the guess by
+<p>We&#8217;re faced with a bound constrained non-linear optimization problem. To solve
+it, we will construct an initial guess and then iteratively improve the guess by
 moving in a direction that decreases <span class="math">\(E\)</span>, after each step <em>snap</em> or project the
 guess to stay within the bounds if necessary. This algorithm is called
 <em>projected gradient descent</em>.</p>
 
-<p>The idea behind gradient descent is intuitive: if you want to get to the bottom
-of a canyon, look at the ground and walk in the direction that goes downhill.</p>
+<p>The idea behind <a href="https://en.wikipedia.org/wiki/Gradient_descent"><em>gradient
+descent</em></a> is intuitive: if you
+want to get to the bottom of a canyon, look at the ground and walk in the
+direction that goes downhill.</p>
 
-<p>So, we iteratively take a step in the <em>negative</em> gradient direction.</p>
+<p>So, we iteratively take a step in the <em>negative</em> gradient direction of our
+objective function <span class="math">\(E(\x(\a))\)</span>:</p>
 
 <p>$$
-\a ← \a - σ \left(\frac{dE(\a)}{d\a}\right)^T
+\a ← \a - σ \left(\frac{dE(\x(\a))}{d\a}\right)^T
 $$</p>
 
 <p>Applying the <a href="https://en.wikipedia.org/wiki/Chain_rule">chain rule</a>, this
@@ -674,8 +794,11 @@ $$</p>
 deformation?</p>
 </blockquote>
 
-<p>Linear blend skinning has many artifacts, most notably problems that occur by
-averaging rotations as matrices. </p>
+<p>Linear blend skinning has many defects. Good &#8220;rigging artists&#8221; can mitigate
+these by carefully painting (yes, painting) weight functions and position the
+<a href="#2.restbone">rest bones</a>. However, some of the linear blend skinning defects are
+theoretical: most notably problems that occur by averaging
+rotations as matrices. </p>
 
 <blockquote>
 <p><strong>Question:</strong> What transformation matrix do you get if you compute: <span class="math">\(½ \Rot_x(90°) + ½ \Rot_x(-90°)\)</span>?</p>
@@ -685,15 +808,11 @@ averaging rotations as matrices. </p>
 
 <h2 id="tasks">Tasks</h2>
 
+<h3 id="blacklist">Black List</h3>
+
 <ul>
-<li>forward kinematics</li>
-<li>euler angles to matrix</li>
-<li>catmull rom interpolation</li>
-<li>finite difference jacobian</li>
-<li>linear blend skinning</li>
-<li>gradient descent</li>
-<li>line search</li>
-<li>levenberg marquadt</li>
+<li><code>igl::lbs</code></li>
+<li><code>igl::forward_kinematics</code></li>
 </ul>
 
 </body>

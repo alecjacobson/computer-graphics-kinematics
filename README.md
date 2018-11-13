@@ -16,16 +16,23 @@
 ### Skeleton
 
 In this assignment we'll consider animating shapes _rigged_ to an internal
-skeleton. The skeleton is a user interface (UI) _metaphor_. A skeleton is a
+skeleton. The skeleton is a [(graphical) user interface (UI)
+_metaphor_](https://en.wikipedia.org/wiki/Interface_metaphor). A skeleton is a
 [tree](https://en.wikipedia.org/wiki/Tree_(data_structure)) of rigid bones, not
 unlike the [anatomical bones](https://en.wikipedia.org/wiki/Bone) in a human or
 animal.
 
 Each "bone" in the skeleton is really a UI widget for visualizing and
 controlling a 3D [rigid
-transformation](https://en.wikipedia.org/wiki/Rigid_transformation).
+transformation](https://en.wikipedia.org/wiki/Rigid_transformation). A common
+visualization of 3D bone in computer graphics is a long, pointed [pyramid
+shape](https://en.wikipedia.org/wiki/Pyramid_(geometry)). This reveals the
+twisting rotation as well as the tree hierarchy: the bone points toward its
+children.
 
-Unlike anatomy where the brain triggers muscles to flex and pull the passive
+![](images/robot-arm-wireframe.gif)
+
+_Unlike_ anatomy where the brain triggers muscles to flex and pull the passive
 bones around, the bones of a skeleton rig will define the pose of a shape.
 
 For each bone, we will consider _**three**_ "states".
@@ -33,12 +40,27 @@ For each bone, we will consider _**three**_ "states".
 #### 1. Canonical Bone
 
 The "Canonical Bone" of length $\ell$ lies along the $x$-axis with its "tail" at
-the origin $(0,0,0)$, its "tip" at $(\ell,0,0)$. The bone is endowed with an
+the origin $(0,0,0)$, its "tip" at $(\ell,0,0)$. 
+
+![](images/canonical-bone.png)
+
+The bone is endowed with an
 orientation or [frame](https://en.wikipedia.org/wiki/Moving_frame). This helps
-define a canonical _bending_ direction. For example, in this assignment, we will
-define bending as rotating about the $z$-axis in the canonical frame. _Twisting_
-is accomplished by rotating about the $x$-axis. Composing a twist, bend and
-another twist spans all possible 3D rotations. We call the three angles composed
+define a canonical _twisting_ direction. We will define twisting as rotating about the $x$-axis in the canonical frame. 
+
+![](images/canonical-twisting.gif)
+
+For example, in this assignment, _bending_ is accomplished by rotating about the
+$z$-axis in the canonical frame.
+
+![](images/canonical-bending.gif)
+
+Composing a twist, bend and
+another twist spans all possible 3D rotations. 
+
+![](images/canonical-rotating.gif)
+
+We call the three angles composed
 into a rotation this way, [Euler angles][eulerangles] (not to be confused with
 the [homophonous](https://en.wiktionary.org/wiki/homophonous) [Oiler
 angles](https://upload.wikimedia.org/wikipedia/commons/9/97/Odessa_TX_Oil_Well_with_Lufkin_320D_pumping_unit.gif)).
@@ -49,7 +71,11 @@ To assemble a skeleton inside our shape will we map each bone from its
 [canonical bone][1.canonicalbone] to its position _and orientation_ in the
 undeformed model. Maintaining the rigidity of the bone, this means for each bone
 there's a rigid transformation $\hat{\T} = (\hat{\Rot} \quad \hat{\t} ) ∈
-\R^{3×4}$ that places its tail and tip to the desired positions in the model. We
+\R^{3×4}$ that places its tail and tip to the desired positions in the model. 
+
+![](images/rest-bone.png)
+
+We
 use the convention that the "canonical tail" (the origin $(0,0,0)$) is mapped to
 the "rest tail" inside the model. This means that the _translation_ part of the
 matrix $\hat{\T}$ is simply the tail position, $\hat{\s}∈\R^3$:
@@ -82,10 +108,10 @@ meaningful direction. For example, we may twist a [tibia
 around the $z$-axis means bending at the
 [knee](https://en.wikipedia.org/wiki/Knee).
 
-This rest transformations $\hat{\T}$ _place_ each bone inside the undeformed
-shape. They do not measure any deformation of the shape from its original
-position. Thus, the _pose_ of each bone will be measured _relative_ to the "rest
-bone".
+Each rest transformation $\hat{\T}$ _places_ its corresponding bone inside the
+undeformed shape. The rest transformations do not measure any deformation of the
+shape from its original position. Thus, the _pose_ of each bone will be measured
+_relative_ to the "rest bone".
 
 #### 3. Pose Bone
 
@@ -100,6 +126,8 @@ $$
 \x = \T \hat{\x}.
 $$
 
+![](images/beast-pose-bone.gif)
+
 $\T$ is expressed as a _global_ mapping of any point in the rest reference frame
 to its pose position. This makes it convenient for [blending transformations
 (see below)][linearblendskinning], but it's not so obvious how to pick coherent
@@ -111,7 +139,7 @@ and so on.
 ### Forward Kinematics
 
 One way to determine the rigid pose transformations $\T_i ∈ \R^{3×4}$ for each
-bone $i$ in a skeleton is to aggregate _relative rotations_ $\overline{\R}_i ∈
+bone $i$ in a skeleton is to aggregate _relative rotations_ $\overline{\Rot}_i ∈
 \R^{3×3}$ between a bone $i$ and its parent bone $p_i$ in the skeletal tree.
 The final transformation at some bone $i$ deep in the skeletal tree is computed
 via a recursive equation.
@@ -193,16 +221,18 @@ will produce a smooth animation. Fancier interpolation such as the
 control of [easing between key
 poses](https://en.wikipedia.org/wiki/12_basic_principles_of_animation#Slow_In_and_Slow_Out).
 
+![](images/hand-animation-sped-up.gif)
+
 In this assignment, we will interpolate Euler angles directly. This works well
 when only a single angle is changing at a time. However, [Euler angles do not
 provide easy movement in every rotational
 direction](https://en.wikipedia.org/wiki/Gimbal_lock). Euler angles model
 rotations as _twist-bend-twist_. For our canonical bones, bending around the
 $z$-axis is easy, but bending around the $y$-axis requires first twisting by
-$90°$.
+$90°$ and then "un"-twisting by $-90°$ after bending.
 
 So, for more complex interpolation of rotations, a different representation such
-as [quaternions](https://en.wikipedia.org/wiki/Slerp) would be needed. This is
+as [unit quaternions](https://en.wikipedia.org/wiki/Slerp) would be needed. This is
 outside the scope of this assignment.
 
 ### Inverse Kinematics
@@ -214,8 +244,8 @@ shoulder, ... This
 [indirect](https://en.wikipedia.org/wiki/Direct_manipulation_interface) control
 makes it difficult to achieve basic poses.  Instead, we can treat the problem of
 setting relative rotations of internal bones (shoulder, elbow, hand, ...) as an
-optimization problem subject to a constraint that the finger goes _directly_
-where we want.
+optimization problem where we try to minimize the distance between the tip of
+the finger and where we want it to be.
 
 Stated mathematically, for a skeleton with $m$ bones, if we create a vector
 $\a ∈ \R^{3m}$ stacking all the Euler angles of each bone vertically:
@@ -241,7 +271,7 @@ $\x_b ∈ \R³$ (often the "tip" of a
 bone of the skeletal tree, called an [end
 effector](https://en.wikipedia.org/wiki/Robot_end_effector)). For example, we 
 then we could design our energy to measure the squared distance between the pose
-tip $\x_b of some bone $b$ and a desired goal location $\q∈\R³$:
+tip $\x_b$ of some bone $b$ and a desired goal location $\q∈\R³$:
 
 $$
 E(\x_b) = ‖\x_b - \q‖².
@@ -263,7 +293,21 @@ $$
 
 We can design arbitrarily complex energies to satisfy our interaction needs. In
 this assignment, we consider that there is a list of constrained end effectors
-$b = \{b₁,b₂,…,b_k\}$. Our energy will have two terms.
+$b = \{b₁,b₂,…,b_k\}$ and our objective is that all selected end effectors $b_i$
+go to their prescribed locations (provided by the mouse-drag UI).
+using the simple squared distance measure above.
+
+So, over all choices of $\a$ we'd like to optimize:
+
+$$
+\min_{\a} \quad
+\underbrace{
+∑\limits_{i=1}\^k ‖\x_{b_i}(\a) - \hat{\x}_{b_i}‖²
+}_{E(\x_b (\a))}
+$$
+
+<!--
+Our energy will have two terms.
 
 First, for a certain constrained end effector $b_j$ we ask that it lies as close
 as possible to the [viewing
@@ -299,8 +343,9 @@ E_{\text{mouse}}(\x_{b_j}(\a)) +
 ∑\limits_{i≠j} ‖\x_{b_i}(\a) - \hat{\x}_{b_i}‖²
 }_{E(\x_b (\a))}
 $$
+-->
 
-We may further constrain our problem by imposing
+We will further constrain our problem by imposing
 [upper and lower bounds](https://en.wikipedia.org/wiki/Constrained_optimization#Inequality_constraints)
 on our angles $\a$. These correspond to joint limits. For example, the joint
 limits of a hinge or elbow type joint may look like:
@@ -318,6 +363,7 @@ $$
 $$
 where $\a^{\text{min}}/\a^{\text{max}}$ stack lower/upper bounds correspondingly to $\a$.
 
+![](images/ikea-lamp-ik.gif)
 
 This type of minimization is non-trivial. Our energy is a quadratic [sum of
 squares](https://en.wikipedia.org/wiki/Linear_least_squares) in $\x_b$, but
@@ -327,19 +373,22 @@ squares](https://en.wikipedia.org/wiki/Non-linear_least_squares) problem.
 
 #### Projected Gradient Descent
 
-Faced with a bound constrained non-linear optimization problem, an immediate
-idea is to construct an initial guess and then iteratively improve the guess by
+We're faced with a bound constrained non-linear optimization problem.  To solve
+it, we will construct an initial guess and then iteratively improve the guess by
 moving in a direction that decreases $E$, after each step _snap_ or project the
 guess to stay within the bounds if necessary. This algorithm is called
 _projected gradient descent_.
 
-The idea behind gradient descent is intuitive: if you want to get to the bottom
-of a canyon, look at the ground and walk in the direction that goes downhill.
+The idea behind [_gradient
+descent_](https://en.wikipedia.org/wiki/Gradient_descent) is intuitive: if you
+want to get to the bottom of a canyon, look at the ground and walk in the
+direction that goes downhill.
 
-So, we iteratively take a step in the _negative_ gradient direction.
+So, we iteratively take a step in the _negative_ gradient direction of our
+objective function $E(\x(\a))$:
 
 $$
-\a ← \a - σ \left(\frac{dE(\a)}{d\a}\right)^T
+\a ← \a - σ \left(\frac{dE(\x(\a))}{d\a}\right)^T
 $$
 
 Applying the [chain rule](https://en.wikipedia.org/wiki/Chain_rule), this
@@ -628,8 +677,11 @@ $$
 > **Question:** What happens to per-vertex normals after applying a skinning
 > deformation?
 
-Linear blend skinning has many artifacts, most notably problems that occur by
-averaging rotations as matrices. 
+Linear blend skinning has many defects. Good "rigging artists" can mitigate
+these by carefully painting (yes, painting) weight functions and position the
+[rest bones][2.restbone]. However, some of the linear blend skinning defects are
+theoretical: most notably problems that occur by averaging
+rotations as matrices. 
 
 > **Question:** What transformation matrix do you get if you compute: $½ \Rot_x(90°) + ½ \Rot_x(-90°)$?
 >
@@ -637,14 +689,9 @@ averaging rotations as matrices.
 
 ## Tasks
 
+### Black List
 
-- forward kinematics
-- euler angles to matrix
-- catmull rom interpolation
-- finite difference jacobian
-- linear blend skinning
-- gradient descent
-- line search
-- levenberg marquadt
+ - `igl::lbs`
+ - `igl::forward_kinematics`
 
 [eulerangles]: https://en.wikipedia.org/wiki/Euler_angles
