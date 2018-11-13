@@ -8,7 +8,6 @@
 #include "linear_blend_skinning.h"
 #include "catmull_rom_interpolation.h"
 #include <vector>
-#include <Eigen/StdVector>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/unproject.h>
 #include <igl/project.h>
