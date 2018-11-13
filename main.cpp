@@ -1,9 +1,8 @@
 #include "Bone.h"
 #include "Skeleton.h"
-#include "kinematics_jacobian.h"
+#include "end_effectors_objective_and_gradient.h"
 #include "projected_gradient_descent.h"
 #include "transformed_tips.h"
-#include "euler_angles_to_quaternion.h"
 #include "read_model_and_rig_from_json.h"
 #include "skeleton_visualization_mesh.h"
 #include "linear_blend_skinning.h"
@@ -12,53 +11,68 @@
 #include <Eigen/StdVector>
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/unproject.h>
+#include <igl/project.h>
 #include <igl/get_seconds.h>
 #include <igl/parula.h>
 #include <igl/randperm.h>
 #include <igl/pinv.h>
+#include <igl/LinSpaced.h>
 #include <igl/matlab_format.h>
 
 
 int main(int argc, char * argv[])
 {
+  typedef 
+    Eigen::Map<
+      Eigen::Matrix<double,Eigen::Dynamic,Eigen::Dynamic,Eigen::RowMajor> > 
+    MapRXd;
   igl::opengl::glfw::Viewer v;
   Eigen::MatrixXd V,U,W;
   Eigen::MatrixXi F;
   Skeleton skeleton;
-  Eigen::VectorXi b;
-  // which constraint in b is attached to the mouse
-  int mouse_bi = 0;
+  // Index of selected end-effector
+  int sel = -1;
 
+  // list of indices into skeleton of bones whose tips are constrained during IK
+  Eigen::VectorXi b;
   std::vector<std::vector<std::pair<double, Eigen::Vector3d> > > fk_anim;
+
   // read mesh, skeleton and weights
   read_model_and_rig_from_json(
-    argc>1?argv[1]:"../shared/data/knight-rig.json",
+    argc>1?argv[1]:"../data/robot-arm.json",
     V,F,skeleton,W,
     fk_anim,b);
-  if(b.size() == 0)
-  {
-    b.setConstant(1,1,skeleton.size()-1);
-  }
+  // If not provided use last bone;
+  if(b.size() == 0) { b.setConstant(1,1,skeleton.size()-1); }
 
   // endpoint positions in a single column
   Eigen::VectorXd xb0 = transformed_tips(skeleton,b);
 
-  assert(fk_anim.size() == skeleton.size());
   // U will track the deforming mesh
   U = V;
-  const int model_id    = 1;
-  const int skeleton_id = 0;
+  const int model_id    = 0;
+  // skeleton after so dots can be on top
+  const int skeleton_id = 1;
   v.append_mesh();
+  v.selected_data_index = 0;
   v.data_list[model_id].set_mesh(U,F);
   v.data_list[model_id].show_faces = false;
   v.data_list[model_id].set_face_based(true);
   // Color the model based on linear blend skinning weights
   {
-    Eigen::MatrixXd CM;
-    Eigen::VectorXi I;
-    igl::randperm(W.cols(),I);
-    igl::parula(I.cast<double>().eval(),true,CM);
-    Eigen::MatrixXd VC = W*CM;
+    Eigen::MatrixXd CM = 
+      (Eigen::MatrixXd(8,3)<<
+        228,26,28,
+        55,126,184,
+        77,175,74,
+        152,78,163,
+        255,127,0,
+        255,255,51,
+        166,86,40,
+        247,129,191
+      ).finished()/255.0;
+    Eigen::MatrixXd VC =
+      W*CM.replicate((W.cols()+CM.rows()-1)/CM.rows(),1).topRows(W.cols());
     Eigen::MatrixXd FC = Eigen::MatrixXd::Zero(F.rows(),VC.cols());
     for (int i = 0; i <F.rows(); ++i)
       for (int j = 0; j<F.cols(); ++j)
@@ -75,7 +89,8 @@ int main(int argc, char * argv[])
   v.data_list[skeleton_id].set_mesh(SV,SF);
   v.data_list[skeleton_id].set_colors(SC);
   v.data_list[skeleton_id].set_face_based(true);
-  v.core.background_color = Eigen::Vector4f(0.8,0.8,0.8,1.0);
+  v.core.animation_max_fps = 30.;
+  v.core.is_animating = true;
 
   double anim_last_t = igl::get_seconds();
   double anim_t = 0;
@@ -84,39 +99,42 @@ int main(int argc, char * argv[])
   const auto update = [&]()
   {
     skeleton_visualization_mesh(skeleton,thickness,SV,SF,SC);
-    v.data_list[skeleton_id].clear();
     v.data_list[skeleton_id].set_mesh(SV,SF);
+    v.data_list[skeleton_id].compute_normals();
     v.data_list[skeleton_id].set_colors(SC);
-
+    // Draw teal dots with lines attached to end-effectors and constraints (pink
+    // if selected)
+    const Eigen::RowVector3d teal(0.56471,0.84706,0.76863);
+    const Eigen::RowVector3d pink(0.99608,0.76078,0.76078);
+    {
+      Eigen::MatrixXd C = teal.replicate(xb0.size()/3,1);
+      if(sel != -1) { C.row(sel) = pink; }
+      v.data_list[skeleton_id].set_points(MapRXd(xb0.data(),xb0.size()/3,3),C);
+      Eigen::MatrixXd P(xb0.size()/3*2,3);
+      Eigen::VectorXd xb = transformed_tips(skeleton,b);
+      P <<
+        MapRXd(xb0.data(),xb0.size()/3,3),
+        MapRXd(xb.data(),xb.size()/3,3);
+      Eigen::MatrixXi E(xb.size()/3,2);
+      for(int e = 0;e<E.rows();e++) { E(e,0) = e; E(e,1) = e+E.rows(); }
+      v.data_list[skeleton_id].set_edges(P,E,C);
+      v.data_list[skeleton_id].show_overlay_depth = false;
+    }
+    // Compute transformations of skeleton bones
     std::vector<Eigen::Affine3d,Eigen::aligned_allocator<Eigen::Affine3d> > T;
     forward_kinematics(skeleton,T);
+    // Apply bone transformations to deform shape
     linear_blend_skinning(V,skeleton,T,W,U);
     v.data_list[model_id].set_vertices(U);
     v.data_list[model_id].compute_normals();
   };
 
   int mouse_x, mouse_y;
+  double mouse_z;
   bool use_ik = true;
-  bool mouse_moved = false;
   const auto ik = [&]()
   {
-    if(!mouse_moved) { return; }
-    const auto view = v.core.view;
-    const auto proj = v.core.proj;
-    const auto viewport = v.core.viewport;
-    Eigen::Vector3d mouse = igl::unproject(
-      Eigen::Vector3f(mouse_x,viewport[3]-mouse_y,0.),
-      view,proj,viewport).cast<double>();
-    Eigen::Vector3d eye = view.inverse().block(0,3,3,1).cast<double>();
-    Eigen::Vector3d d = (mouse-eye).normalized();
-    Eigen::Matrix3d P = Eigen::Matrix3d::Identity() - d*d.transpose();
-    v.data().set_edges(
-      (Eigen::MatrixXd(2,3)<<
-       eye.transpose(),
-       (eye+(mouse-eye)*100.).transpose()
-       ).finished(),
-      (Eigen::MatrixXi(1,2)<<0,1).finished(),
-      (Eigen::MatrixXd(1,3)<<1,0,0).finished());
+    // If in debug mode use 1 ik iteration per drawn frame, otherwise 100
     const int max_iters =
 #if NDEBUG
       100;
@@ -129,53 +147,10 @@ int main(int argc, char * argv[])
     {
       A.block(si*3,0,3,1) = skeleton[si].xzx;
     }
-    const auto skeleton_at = [&](const Eigen::VectorXd & A)->Skeleton
-    {
-      Skeleton copy = skeleton;
-      for(int si = 0;si<skeleton.size();si++)
-      {
-        copy[si].xzx = A.block(si*3,0,3,1);
-      }
-      return copy;
-    };
-    const auto f = [&](const Eigen::VectorXd & A)->double
-    {
-      Skeleton copy = skeleton_at(A);
-      Eigen::VectorXd xb = transformed_tips(copy,b);
-      // grab tip at mouse
-      Eigen::Vector3d xbm = xb.block(3*mouse_bi,0,3,1);
-      // zero out part of first term cooresponding to tip controlled by mouse
-      xb.block(3*mouse_bi,0,3,1).setConstant(0);
-      xb0.block(3*mouse_bi,0,3,1).setConstant(0);
-      return 0.5*((xb-xb0).squaredNorm() + (P*(xbm - eye)).squaredNorm());
-    };
-    const auto grad_f = [&](const Eigen::VectorXd & A)->Eigen::VectorXd
-    {
-      Skeleton copy = skeleton_at(A);
-      Eigen::VectorXd xb = transformed_tips(copy,b);
-      // grab tip at mouse
-      Eigen::Vector3d xbm = xb.block(3*mouse_bi,0,3,1);
-      Eigen::VectorXd dEdx = xb-xb0;
-      // Overwrite energy gradient of endpoint attached to mouse
-      dEdx.block(mouse_bi*3,0,3,1) = P.transpose()*(P*(xbm - eye));
-      // We want to build dx/dθ where θ are _all_ of the joint angles.
-      Eigen::MatrixXd J;
-      kinematics_jacobian(b,copy,J);
-      return J.transpose() * dEdx;
-    };
-    const auto proj_z = [&](Eigen::VectorXd & A)
-    {
-      assert(skeleton.size()*3 == A.size());
-      for(int si = 0;si<skeleton.size();si++)
-      {
-        const auto bone = skeleton[si];
-        for(int a = 0;a<3;a++)
-        {
-          A(si*3+a) = 
-            std::min(std::max(A(si*3+a),bone.xzx_min(a)),bone.xzx_max(a));
-        }
-      }
-    };
+    std::function<double(const Eigen::VectorXd &)> f;
+    std::function<Eigen::VectorXd(const Eigen::VectorXd &)> grad_f;
+    std::function<void(Eigen::VectorXd &)> proj_z;
+    end_effectors_objective_and_gradient(skeleton,b,xb0,f,grad_f,proj_z);
     // Optimize angles
     projected_gradient_descent(f,grad_f,proj_z,max_iters,A);
     // Distribute optimized angles
@@ -187,42 +162,82 @@ int main(int argc, char * argv[])
 
   v.callback_pre_draw = [&](igl::opengl::glfw::Viewer &)->bool
   {
-    //if(v.core.is_animating)
-    if(use_ik && !v.down)
+    if(use_ik)
     {
       ik();
-      update();
     }else
     // Forward Kinematice animation
     {
-      const double now = igl::get_seconds();
-      anim_t += now - anim_last_t;
-      anim_last_t = now;
+      if(v.core.is_animating)
+      {
+        const double now = igl::get_seconds();
+        anim_t += now - anim_last_t;
+        anim_last_t = now;
+      }
       // Robot-arm
       for(int b = 0;b<skeleton.size();b++)
       {
         skeleton[b].xzx = catmull_rom_interpolation( fk_anim[b],anim_t);
       }
-      update();
+    }
+    update();
+    return false;
+  };
+
+  // Record mouse information on click
+  v.callback_mouse_down = [&](igl::opengl::glfw::Viewer&, int, int)->bool
+  {
+    Eigen::RowVector3f last_mouse(mouse_x,v.core.viewport(3)-mouse_y,0);
+    // Move closest control point
+    Eigen::MatrixXf CP;
+    igl::project(
+      MapRXd(xb0.data(),xb0.size()/3,3),
+      v.core.view,
+      v.core.proj, v.core.viewport,
+      CP);
+    Eigen::VectorXf D = (CP.rowwise()-last_mouse).rowwise().norm();
+    sel = (D.minCoeff(&sel) < 30)?sel:-1;
+    if(sel != -1)
+    {
+      mouse_z = CP(sel,2);
+      return true;
     }
     return false;
   };
-  v.core.animation_max_fps = 30.;
-
+  // Unset selection on mouse up
+  v.callback_mouse_up = [&](igl::opengl::glfw::Viewer&, int, int)->bool
+  {
+    sel = -1;
+    return false;
+  };
+  // update selected constraint on mouse drag
   v.callback_mouse_move = [&](
     igl::opengl::glfw::Viewer & v,
     int _mouse_x,
     int _mouse_y)
   {
-    mouse_moved = true;
+    // Remember mouse position
+    if(sel != -1)
+    {
+      Eigen::Vector3f drag_scene,last_scene;
+      igl::unproject(
+        Eigen::Vector3f(_mouse_x,v.core.viewport(3) - _mouse_y,mouse_z),
+        v.core.view,
+        v.core.proj,
+        v.core.viewport,
+        drag_scene);
+      igl::unproject(
+        Eigen::Vector3f(mouse_x,v.core.viewport(3) - mouse_y,mouse_z),
+        v.core.view,
+        v.core.proj,
+        v.core.viewport,
+        last_scene);
+      xb0.block(sel*3,0,3,1) += (drag_scene-last_scene).cast<double>();
+    }
     mouse_x = _mouse_x;
     mouse_y = _mouse_y;
-    if(v.down)
-    {
-      return false;
-    }
-    return false;
-  } ;
+    return sel!=-1;
+  };
 
   v.callback_key_pressed = [&](
     igl::opengl::glfw::Viewer & v,
@@ -234,22 +249,20 @@ int main(int argc, char * argv[])
     {
       default:
         return false;
+      case 'R':
       case 'r':
-        for(auto & bone : skeleton)
-        { bone.xzx.setConstant(0); }
+        // Reset bone transformations
+        for(auto & bone : skeleton) { bone.xzx.setConstant(0); }
+        sel = -1;
+        xb0 = transformed_tips(skeleton,b);
         anim_last_t = igl::get_seconds();
         anim_t = 0;
         update();
         break;
-      case ',':
-      case '.':
-      {
-        mouse_bi = (mouse_bi+b.size()+(key==','?-1:+1)) % b.size();
-        break;
-      }
       case 'I':
       case 'i':
         use_ik = !use_ik;
+        v.data_list[skeleton_id].show_overlay = use_ik;
         break;
       case ' ':
         v.core.is_animating = !v.core.is_animating;
@@ -260,16 +273,12 @@ int main(int argc, char * argv[])
         }
         break;
     }
-    
-    // Save current endpoint states as new targets
-    xb0 = transformed_tips(skeleton,b);
-
     return true;
   };
   std::cout<< R"(
 [space]  toggle animation
+I,i      toggle between interactive demo (IK) / animation (pure FK)
+R,r      reset bone transformations to rest
 )";
-
-  v.core.is_animating = true;
   v.launch();
 }
