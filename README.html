@@ -742,19 +742,19 @@ direction <span class="math">\(∆\a\)</span>, followed by projecting onto const
 \a ← \text{proj}(\a + ∆\a).
 $$</p>
 
-<p>Despite our best efforts, this direction is not guaranteed to actually decrease
-our energy <span class="math">\(E\)</span>. We can think of the descent direction <span class="math">\(∆\a\)</span> as a line (or really
-a <em>ray</em>) and we&#8217;d like to find an amount <span class="math">\(α\)</span> to move along this line that actually
+<p>Despite our best efforts, this step is not guaranteed to actually decrease
+our energy <span class="math">\(E\)</span>. We can think of the descent <em>direction</em> <span class="math">\(∆\a\)</span> as defining a line (or really
+a <em>ray</em>) and we&#8217;d like to find a positive amount <span class="math">\(σ\)</span> to move along this line that actually
 does decrease the energy:</p>
 
 <p>$$
-E(\text{proj}(\a + α ∆\a)) &lt; E(\a).
+E(\text{proj}(\a + σ ∆\a)) &lt; E(\a).
 $$</p>
 
-<p>While there exists an optimal step <span class="math">\(α\)</span>, we don&#8217;t want to spend too long finding
+<p>While there exists an optimal step <span class="math">\(σ\)</span>, we don&#8217;t want to spend too long finding
 it as we would be better off spending our computational efforts improving the
-descent <em>direction</em> for the next step. So, starting with a large value <span class="math">\(α\)</span>
-(e.g., 10,000), we decrease <span class="math">\(α\)</span> by a constant factor (e.g., <span class="math">\(½\)</span>) until our
+descent <em>direction</em> for the next step. So, starting with a large value <span class="math">\(σ\)</span>
+(e.g., 10,000), we decrease <span class="math">\(σ\)</span> by a constant factor (e.g., <span class="math">\(½\)</span>) until our
 inequality passes.</p>
 
 <p>Depending on the configuration, it may or may not be possible to exactly satisfy

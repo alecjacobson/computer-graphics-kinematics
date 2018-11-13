@@ -626,19 +626,19 @@ $$
 \a ← \text{proj}(\a + ∆\a).
 $$
 
-Despite our best efforts, this direction is not guaranteed to actually decrease
-our energy $E$. We can think of the descent direction $∆\a$ as a line (or really
-a _ray_) and we'd like to find an amount $α$ to move along this line that actually
+Despite our best efforts, this step is not guaranteed to actually decrease
+our energy $E$. We can think of the descent _direction_ $∆\a$ as defining a line (or really
+a _ray_) and we'd like to find a positive amount $σ$ to move along this line that actually
 does decrease the energy:
 
 $$
-E(\text{proj}(\a + α ∆\a)) < E(\a).
+E(\text{proj}(\a + σ ∆\a)) < E(\a).
 $$
 
-While there exists an optimal step $α$, we don't want to spend too long finding
+While there exists an optimal step $σ$, we don't want to spend too long finding
 it as we would be better off spending our computational efforts improving the
-descent _direction_ for the next step. So, starting with a large value $α$
-(e.g., 10,000), we decrease $α$ by a constant factor (e.g., $½$) until our
+descent _direction_ for the next step. So, starting with a large value $σ$
+(e.g., 10,000), we decrease $σ$ by a constant factor (e.g., $½$) until our
 inequality passes.
 
 Depending on the configuration, it may or may not be possible to exactly satisfy
