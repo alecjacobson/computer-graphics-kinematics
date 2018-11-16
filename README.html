@@ -689,7 +689,7 @@ nothing more than the limit of a small change output divided by a small change
 in the input:</p>
 
 <p>$$
-\J_{i,j} = \lim_{h → 0} \frac{\x_i(\a+h δ_j)}{h},
+\J_{i,j} = \lim_{h → 0} \frac{\x_i(\a+h δ_j) - \x_i(\a)}{h},
 $$
 where <span class="math">\(δ_j ∈ \R^{|a|}\)</span> is a vector of zeros except a 1 at location <span class="math">\(j\)</span>.</p>
 
@@ -697,7 +697,7 @@ where <span class="math">\(δ_j ∈ \R^{|a|}\)</span> is a vector of zeros excep
 <span class="math">\(h=10^{-7}\)</span>). This is called the <a href="https://en.wikipedia.org/wiki/Finite_difference">finite
 difference</a> approximation:
 $$
-\J_{i,j} \approx \frac{\x_i(\a+h δ_j)}{h}.
+\J_{i,j} \approx \frac{\x_i(\a+h δ_j) - \x_i(\a)}{h}.
 $$</p>
 
 <p>For inverse kinematics, we will need to compute <span class="math">\(\x_i(\a+h δ_j)\)</span> once for each
