@@ -11,7 +11,7 @@ class Bone
     // Index into skeleton bone-list  of parent (-1 indicates root)
     int parent_index;
     // Index into columns of weights matrix for corresponding linear blend
-    // skinning weights
+    // skinning weights (-1 indicates no associated weights)
     int weight_index;
     // Transformation mapping from "canonical bone" to "rest bone"
     Eigen::Affine3d rest_T;

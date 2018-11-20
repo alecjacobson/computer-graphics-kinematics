@@ -15,7 +15,8 @@
 //   skeleton  #T list of skeleton bones 
 //   T  #T list of affine transformations
 //   W  #V by #W list of weights (so that W(v,skeleton[i].weight_index) is the
-//     weight at vertex v corresponding to transformation T[i]
+//     weight at vertex v corresponding to transformation T[i] (Recall:
+//     weight_index=-1 indicates no associated weights).
 // Outputs:
 //   U  #V by 3 list of deformed mesh vertex positions
 void linear_blend_skinning(
