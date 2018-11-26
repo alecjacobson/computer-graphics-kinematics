@@ -80,8 +80,8 @@ use the convention that the "canonical tail" (the origin $(0,0,0)$) is mapped to
 the "rest tail" inside the model. This means that the _translation_ part of the
 matrix $\hat{\T}$ is simply the tail position, $\hat{\s}∈\R^3$:
 $$
-\hat{\s} = \T \left(\begin{array}{c}0\\\\0\\\\0\\\\1\end{array}\right) =
-\Rot\left(\begin{array}{c}0\\\\0\\\\0\end{array}\right) + \hat{\t} 1 = \hat{\t}.
+\hat{\s} = \hat{\T} \left(\begin{array}{c}0\\\\0\\\\0\\\\1\end{array}\right) =
+\hat{\Rot} \left(\begin{array}{c}0\\\\0\\\\0\end{array}\right) + \hat{\t} 1 = \hat{\t}.
 $$
 
 The bone's
@@ -89,8 +89,8 @@ rotation is chosen so that the "canonical tip" $(\ell,0,0)$ maps to the "rest
 tip" $\hat{\d} ∈ \R³$:
 $$
 \hat{\d} = 
-\T \left(\begin{array}{c}\ell\\\\0\\\\0\\\\1\end{array}\right) =
-\Rot\left(\begin{array}{c}\ell\\\\0\\\\0\end{array}\right) + \hat{\t}.
+\hat{\T} \left(\begin{array}{c}\ell\\\\0\\\\0\\\\1\end{array}\right) =
+\hat{\Rot}\left(\begin{array}{c}\ell\\\\0\\\\0\end{array}\right) + \hat{\t}.
 $$
 
 Typically the "rest tail" of is coincident with the "rest tip" of its

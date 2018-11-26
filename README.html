@@ -184,8 +184,8 @@ use the convention that the &#8220;canonical tail&#8221; (the origin <span class
 the &#8220;rest tail&#8221; inside the model. This means that the <em>translation</em> part of the
 matrix <span class="math">\(\hat{\T}\)</span> is simply the tail position, <span class="math">\(\hat{\s}∈\R^3\)</span>:
 $$
-\hat{\s} = \T \left(\begin{array}{c}0\\0\\0\\1\end{array}\right) =
-\Rot\left(\begin{array}{c}0\\0\\0\end{array}\right) + \hat{\t} 1 = \hat{\t}.
+\hat{\s} = \hat{\T} \left(\begin{array}{c}0\\0\\0\\1\end{array}\right) =
+\hat{\Rot} \left(\begin{array}{c}0\\0\\0\end{array}\right) + \hat{\t} 1 = \hat{\t}.
 $$</p>
 
 <p>The bone&#8217;s
@@ -193,8 +193,8 @@ rotation is chosen so that the &#8220;canonical tip&#8221; <span class="math">\(
 tip&#8221; <span class="math">\(\hat{\d} ∈ \R³\)</span>:
 $$
 \hat{\d} =
-\T \left(\begin{array}{c}\ell\\0\\0\\1\end{array}\right) =
-\Rot\left(\begin{array}{c}\ell\\0\\0\end{array}\right) + \hat{\t}.
+\hat{\T} \left(\begin{array}{c}\ell\\0\\0\\1\end{array}\right) =
+\hat{\Rot}\left(\begin{array}{c}\ell\\0\\0\end{array}\right) + \hat{\t}.
 $$</p>
 
 <p>Typically the &#8220;rest tail&#8221; of is coincident with the &#8220;rest tip&#8221; of its
