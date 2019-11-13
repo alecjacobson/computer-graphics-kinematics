@@ -8,17 +8,12 @@ if(LIBIGL_FOUND)
 endif()
 
 find_path(LIBIGL_INCLUDE_DIR igl/readOBJ.h
-    HINTS
-        ENV LIBIGL
-        ENV LIBIGLROOT
-        ENV LIBIGL_ROOT
-        ENV LIBIGL_DIR
     PATHS
-        ${CMAKE_SOURCE_DIR}/../..
-        ${CMAKE_SOURCE_DIR}/..
         ${CMAKE_SOURCE_DIR}
         ${CMAKE_SOURCE_DIR}/libigl
+        ${CMAKE_SOURCE_DIR}/..
         ${CMAKE_SOURCE_DIR}/../libigl
+        ${CMAKE_SOURCE_DIR}/../..
         ${CMAKE_SOURCE_DIR}/../../libigl
         /usr
         /usr/local
