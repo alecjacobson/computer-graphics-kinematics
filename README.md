@@ -175,7 +175,7 @@ _compose_ with the knee bend.
 
 It is convenient to express the relative rotations of each bone in the
 [canonical frame][1.canonicalbone]. We can utilize canonical twist-bend-twist
-rotations (three [Euler angles][eulerangles], $Θ₁,θ₂,θ₃$). Each bone's rotation
+rotations (three [Euler angles][eulerangles], $θ₁,θ₂,θ₃$). Each bone's rotation
 is conducted in its canonical frame and then _brought_ through the rest frame
 through a change of coordinates:
 
