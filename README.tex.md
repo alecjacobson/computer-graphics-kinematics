@@ -396,14 +396,14 @@ So, we iteratively take a step in the _negative_ gradient direction of our
 objective function $E(\mathbf{x}(\mathbf{a}))$:
 
 $$
-\mathbf{a} \Leftarrow  \mathbf{a} - \sigma  \left(\frac{dE(\mathbf{x}(\mathbf{a}))}{d\mathbf{a}}\right)^T
+\mathbf{a} \leftarrow  \mathbf{a} - \sigma  \left(\frac{dE(\mathbf{x}(\mathbf{a}))}{d\mathbf{a}}\right)^T
 $$
 
 Applying the [chain rule](https://en.wikipedia.org/wiki/Chain_rule), this
 iteration becomes
 
 $$
-\mathbf{a} \Leftarrow  \mathbf{a} - \sigma  \left(\frac{d\mathbf{x}(\mathbf{a})}{d\mathbf{a}}\right)^T\left(\frac{dE(\mathbf{x})}{d\mathbf{x}}\right)
+\mathbf{a} \leftarrow  \mathbf{a} - \sigma  \left(\frac{d\mathbf{x}(\mathbf{a})}{d\mathbf{a}}\right)^T\left(\frac{dE(\mathbf{x})}{d\mathbf{x}}\right)
 $$
 
 where $\frac{dE}{d\mathbf{a}} \in  \mathbf{R}^{|\mathbf{a}|}$,
@@ -422,7 +422,7 @@ $$
 Written in terms of $\mathbf{J}$ our step becomes,
 
 $$
-\mathbf{a} \Leftarrow  \mathbf{a} - \sigma  \mathbf{J}^{\mathsf T}\left(\frac{dE(\mathbf{x})}{d\mathbf{x}}\right)
+\mathbf{a} \leftarrow  \mathbf{a} - \sigma  \mathbf{J}^{\mathsf T}\left(\frac{dE(\mathbf{x})}{d\mathbf{x}}\right)
 $$
 
 > **Question:** Can we take an arbitrarily large step $\sigma >>0$?
@@ -440,13 +440,13 @@ To ensure that our bounds are obeyed, after each step we need to _project_ onto
 our constraints by snapping each value to its respective bound if necessary:
 
 $$
-\mathbf{a}_i \Leftarrow  \max[\mathbf{a}^\text{min}_i, \mathop{\text{min}}[\mathbf{a}^\text{max}_i,\mathbf{a}_i]].
+\mathbf{a}_i \leftarrow  \max[\mathbf{a}^\text{min}_i, \mathop{\text{min}}[\mathbf{a}^\text{max}_i,\mathbf{a}_i]].
 $$
 
 We'll refer to this as a projection filter acting on the entire vector $\mathbf{a}$:
 
 $$
-\mathbf{a} \Leftarrow  \text{proj}(\mathbf{a}).
+\mathbf{a} \leftarrow  \text{proj}(\mathbf{a}).
 $$
 
 
@@ -460,51 +460,39 @@ $$
 > In order to find a _better_ descent direction, let's assume we knew _more_ about
 > $E$. That is, suppose we also knew its second derivatives: $\frac{d^2 E}{d\mathbf{x}^2 }$. 
 > 
-> Given an initial guess $\mathbf{x}^0 $ we're looking to find a change $\Delta \mathbf{x}$ so that $E(\mathbf{x}^0 
-> + \Delta \mathbf{x})$ is a stationary point.
+> Given an initial guess $\mathbf{x}^0 $ we're looking to find a change $\Delta \mathbf{x}$ so that $E(\mathbf{x}^0 + \Delta \mathbf{x})$ is a stationary point.
 > 
 > Starting with our equilibrium equation,
-> $$
-> \frac{dE(\mathbf{x})}{d\mathbf{x}} = \mathbf{0}
-> $$
+> $$\frac{dE(\mathbf{x})}{d\mathbf{x}} = \mathbf{0}$$
 > 
 > we substitute in $x = \mathbf{x}^0  + \Delta \mathbf{x}$
 > 
-> $$
-> \frac{dE(\mathbf{x}^0 +\Delta \mathbf{x})}{d\Delta \mathbf{x}} = \mathbf{0}
-> $$
+> $$\frac{dE(\mathbf{x}^0 +\Delta \mathbf{x})}{d\Delta \mathbf{x}} = \mathbf{0}$$
 > 
 > Plugging in a [Taylor series](https://en.wikipedia.org/wiki/Taylor_series)
 > expansion
 > 
-> $$
-> E(\mathbf{x}^0 +\Delta \mathbf{x}) \approx E(\mathbf{x}^0 ) + \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} \Delta \mathbf{x} +
+> $$E(\mathbf{x}^0 +\Delta \mathbf{x}) \approx E(\mathbf{x}^0 ) + \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} \Delta \mathbf{x} +
 > \frac{d^2 E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}^2 }\frac{(\Delta \mathbf{x})^2 }{2} + \ldots$$
 > 
 > and dropping higher order terms ($\ldots$), we get:
 > 
-> $$
-> \frac{d}{d\Delta \mathbf{x}}(E(\mathbf{x}^0 ) + \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} \Delta \mathbf{x} + \underbrace{\frac{d^2 E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}^2 }}_\mathbf{H}\frac{(\Delta \mathbf{x})^2 }{2}) = \mathbf{0},
-> $$
+> $$\frac{d}{d\Delta \mathbf{x}}(E(\mathbf{x}^0 ) + \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} \Delta \mathbf{x} + \underbrace{\frac{d^2 E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}^2 }}_\mathbf{H}\frac{(\Delta \mathbf{x})^2 }{2}) = \mathbf{0},$$
 > 
 > where we call $\mathbf{H} \in  \mathbf{R}^{|x| \times  |x|}$ the [Hessian
 > matrix](https://en.wikipedia.org/wiki/Hessian_matrix).  
 > 
 > Applying the differentiation by $\Delta \mathbf{x}$ we get a system of equations:
 > 
-> $$
-> \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} + \frac{d^2 E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}^2 } \Delta \mathbf{x} = \mathbf{0}.
-> $$
+> $$\frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} + \frac{d^2 E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}^2 } \Delta \mathbf{x} = \mathbf{0}.$$
+>
 > Solving for the change $\Delta x$ we get:
-> $$
-> \Delta x = -\left.\mathbf{H}\right.^{-1} \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}}.
-> $$
+>
+> $$\Delta x = -\left.\mathbf{H}\right.^{-1} \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}}.$$
 > 
 > So a _raw_ Newton's method update would be:
 > 
-> $$
-> \mathbf{x} \Leftarrow  \mathbf{x} - \left.\mathbf{H}\right.^{-1} \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}}.
-> $$
+> $$\mathbf{x} \leftarrow  \mathbf{x} - \left.\mathbf{H}\right.^{-1} \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}}.$$
 > 
 > If our Taylor series approximation was perfect (no high order terms in $\ldots$; in
 > otherwords $E$ was quadratic), then Newton's method would be perfect: a single
@@ -529,15 +517,11 @@ $$
 > The simplest approximation of $\mathbf{H}$ is the identity matrix $\mathbf{I}$. Plugging this
 > into our truncated Taylor series expansion above, our approximation would read:
 > 
-> $$
-> E(\mathbf{x}^0 ) + \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} \Delta \mathbf{x} + \mathbf{I} \frac{(\Delta \mathbf{x})^2 }{2}.
-> $$
+> $$E(\mathbf{x}^0 ) + \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}} \Delta \mathbf{x} + \mathbf{I} \frac{(\Delta \mathbf{x})^2 }{2}.$$
 > 
 > and our step reduces to good ol' gradient descent:
 > 
-> $$
-> \mathbf{x} \Leftarrow  \mathbf{x} - \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}}.
-> $$
+> $$\mathbf{x} \leftarrow  \mathbf{x} - \frac{d E(\mathbf{x}^0 +\Delta \mathbf{x})}{d\mathbf{x}}.$$
 > 
 > #### Gauss-Newton
 >
@@ -545,9 +529,7 @@ $$
 > =\frac{d\mathbf{x}(\mathbf{a})}{d\mathbf{a}}$, an even better approximation for Hessian $\mathbf{H}$ than the
 > identity $\mathbf{I}$ would be to use $\mathbf{J}^{\mathsf T} J$. The resulting update becomes:
 >
-> $$
-> \mathbf{a} \Leftarrow  \mathbf{a} + (\left.\mathbf{J}\right.^{\mathsf T}\mathbf{J})^{-1} \left.\mathbf{J}\right.^{\mathsf T} \frac{dE(\mathbf{x})}{d\mathbf{x}}
-> $$
+> $$\mathbf{a} \leftarrow  \mathbf{a} + (\left.\mathbf{J}\right.^{\mathsf T}\mathbf{J})^{-1} \left.\mathbf{J}\right.^{\mathsf T} \frac{dE(\mathbf{x})}{d\mathbf{x}}$$
 >
 > Unlike $\mathbf{H}$, $\mathbf{J}^{\mathsf T}\mathbf{J}$ is easy to compute if we're already computing
 > $\mathbf{J}$. It is guaranteed to be [positive
@@ -581,7 +563,7 @@ nothing more than the limit of a small change output divided by a small change
 in the input:
 
 $$
-\mathbf{J}_{i,j} = \lim_{h \Rightarrow  0} \frac{\mathbf{x}_i(\mathbf{a}+h \delta _j) - \mathbf{x}_i(\mathbf{a})}{h},
+\mathbf{J}_{i,j} = \lim_{h \rightarrow  0} \frac{\mathbf{x}_i(\mathbf{a}+h \delta _j) - \mathbf{x}_i(\mathbf{a})}{h},
 $$
 
 where $\delta _j \in  \mathbf{R}^{|a|}$ is a vector of zeros except a 1 at location $j$.
@@ -634,7 +616,7 @@ generally _attempting_ improving our guess by iteratively moving in a descent
 direction $\Delta \mathbf{a}$, followed by projecting onto constraints:
 
 $$
-\mathbf{a} \Leftarrow  \text{proj}(\mathbf{a} + \Delta \mathbf{a}).
+\mathbf{a} \leftarrow  \text{proj}(\mathbf{a} + \Delta \mathbf{a}).
 $$
 
 Despite our best efforts, this step is not guaranteed to actually decrease

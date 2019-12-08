@@ -331,12 +331,12 @@ direction that goes downhill.
 So, we iteratively take a step in the _negative_ gradient direction of our
 objective function <img src="svgs/207cd5ef005ea05c1025a66de9222f42.svg?invert_in_darkmode&sanitize=true" align=middle width=57.81963pt height=24.6576pt/>:
 
-<p align="center"><img src="svgs/9aa9bf6609bfd893a34babef6ca3b720.svg?invert_in_darkmode&sanitize=true" align=middle width=180.81855pt height=43.251615pt/></p>
+<p align="center"><img src="svgs/d961e7e63971c07c4195bce0475d4189.svg?invert_in_darkmode&sanitize=true" align=middle width=180.81855pt height=43.251615pt/></p>
 
 Applying the [chain rule](https://en.wikipedia.org/wiki/Chain_rule), this
 iteration becomes
 
-<p align="center"><img src="svgs/f354fcbf8db9e5a69bc921096f2ace93.svg?invert_in_darkmode&sanitize=true" align=middle width=231.05939999999998pt height=43.251615pt/></p>
+<p align="center"><img src="svgs/e2954cac1c73191567bf3d237019b8a5.svg?invert_in_darkmode&sanitize=true" align=middle width=231.05939999999998pt height=43.251615pt/></p>
 
 where <img src="svgs/b8299584eb2f191a70ad2cb35778e6a8.svg?invert_in_darkmode&sanitize=true" align=middle width=68.419395pt height=29.19114pt/>,
 <img src="svgs/fba60cf492f07e0c07fc2c35cd80ad72.svg?invert_in_darkmode&sanitize=true" align=middle width=69.032535pt height=29.19114pt/>, and <img src="svgs/11a81c264d5da44610abf6cd651cd155.svg?invert_in_darkmode&sanitize=true" align=middle width=91.930905pt height=29.19114pt/>
@@ -350,7 +350,7 @@ depend on the choice of energy <img src="svgs/84df98c65d88c6adf15d4645ffa25e47.s
 
 Written in terms of <img src="svgs/4b89c22bc825ade97f0e007ade8f761b.svg?invert_in_darkmode&sanitize=true" align=middle width=9.77163pt height=22.557149999999996pt/> our step becomes,
 
-<p align="center"><img src="svgs/488a9a40a4f71b24e857be2ad27f45ee.svg?invert_in_darkmode&sanitize=true" align=middle width=168.25379999999998pt height=39.45249pt/></p>
+<p align="center"><img src="svgs/1734deda2c78acb1a1d82d6a9a371067.svg?invert_in_darkmode&sanitize=true" align=middle width=168.25379999999998pt height=39.45249pt/></p>
 
 > **Question:** Can we take an arbitrarily large step <img src="svgs/e38aac0b1f52dfdadca9fba9bcfa5b95.svg?invert_in_darkmode&sanitize=true" align=middle width=52.905269999999994pt height=21.18732pt/>?
 >
@@ -366,11 +366,11 @@ point](https://en.wikipedia.org/wiki/Stationary_point) and likely at a minimum.
 To ensure that our bounds are obeyed, after each step we need to _project_ onto
 our constraints by snapping each value to its respective bound if necessary:
 
-<p align="center"><img src="svgs/6a07539d71381c6f93fa61e1190ad4c2.svg?invert_in_darkmode&sanitize=true" align=middle width=216.39089999999996pt height=18.636585pt/></p>
+<p align="center"><img src="svgs/4268976e3a3f99f9be31094c95c5bb21.svg?invert_in_darkmode&sanitize=true" align=middle width=216.39089999999996pt height=18.636585pt/></p>
 
 We'll refer to this as a projection filter acting on the entire vector <img src="svgs/41f28962986ecdd9c1dc2af8b83fef84.svg?invert_in_darkmode&sanitize=true" align=middle width=9.189509999999999pt height=14.61207pt/>:
 
-<p align="center"><img src="svgs/1846b88871b01ae40369b157edb1db64.svg?invert_in_darkmode&sanitize=true" align=middle width=91.0272pt height=16.438356pt/></p>
+<p align="center"><img src="svgs/1280fe933733d92694fc8303c7401d2f.svg?invert_in_darkmode&sanitize=true" align=middle width=91.0272pt height=16.438356pt/></p>
 
 
 > #### Newton's method
@@ -383,36 +383,38 @@ We'll refer to this as a projection filter acting on the entire vector <img src=
 > In order to find a _better_ descent direction, let's assume we knew _more_ about
 > <img src="svgs/84df98c65d88c6adf15d4645ffa25e47.svg?invert_in_darkmode&sanitize=true" align=middle width=13.08219pt height=22.46574pt/>. That is, suppose we also knew its second derivatives: <img src="svgs/de0ca7d78ee3005e08686dcfdc88070a.svg?invert_in_darkmode&sanitize=true" align=middle width=23.54187pt height=33.45969pt/>. 
 > 
-> Given an initial guess <img src="svgs/83dbb4b45296124797c845dc3b48fa63.svg?invert_in_darkmode&sanitize=true" align=middle width=16.529700000000002pt height=26.76201pt/> we're looking to find a change <img src="svgs/52cdbba1eb4fddc47169867a1330fa0d.svg?invert_in_darkmode&sanitize=true" align=middle width=23.67585pt height=22.46574pt/> so that <img src="svgs/0eaaed4bba880174a78a00910749ac23.svg?invert_in_darkmode&sanitize=true" align=middle width=101.59808999999998pt height=26.76201pt/> is a stationary point.
+> Given an initial guess <img src="svgs/83dbb4b45296124797c845dc3b48fa63.svg?invert_in_darkmode&sanitize=true" align=middle width=16.529700000000002pt height=26.76201pt/> we're looking to find a change <img src="svgs/52cdbba1eb4fddc47169867a1330fa0d.svg?invert_in_darkmode&sanitize=true" align=middle width=23.67585pt height=22.46574pt/> so that <img src="svgs/50a34f203760829a20238280298d8c8e.svg?invert_in_darkmode&sanitize=true" align=middle width=86.986185pt height=26.76201000000001pt/> is a stationary point.
 > 
 > Starting with our equilibrium equation,
-> <p align="center"><img src="svgs/d2662ad457e2e9d04a48fd0f18b32d60.svg?invert_in_darkmode&sanitize=true" align=middle width=114.41859pt height=34.725404999999995pt/></p>
+> <p align="center"><img src="svgs/266675fbf1cb9ecbe24b10fd9083ffb5.svg?invert_in_darkmode&sanitize=true" align=middle width=77.742885pt height=34.725404999999995pt/></p>
 > 
 > we substitute in <img src="svgs/6ee763468647b8d38622efbf9969e596.svg?invert_in_darkmode&sanitize=true" align=middle width=92.431185pt height=26.76201pt/>
 > 
-> <p align="center"><img src="svgs/3c2038a3d8031baca0fdc78ba9cb1e6f.svg?invert_in_darkmode&sanitize=true" align=middle width=165.55935pt height=35.777445pt/></p>
+> <p align="center"><img src="svgs/146fb59365f28c2c451eb7f41f3950af.svg?invert_in_darkmode&sanitize=true" align=middle width=128.88430499999998pt height=35.777445pt/></p>
 > 
 > Plugging in a [Taylor series](https://en.wikipedia.org/wiki/Taylor_series)
 > expansion
 > 
-> <p align="center"><img src="svgs/056f19f2520a45baf7908599494fafdd.svg?invert_in_darkmode&sanitize=true" align=middle width=541.3435499999999pt height=35.777445pt/></p>
+> <p align="center"><img src="svgs/63d7d374f45adc70abe35337e62b89f4.svg?invert_in_darkmode&sanitize=true" align=middle width=523.99215pt height=35.777445pt/></p>
 > 
 > and dropping higher order terms (<img src="svgs/e378afcd7cae11e7306c61a9c35bf6cf.svg?invert_in_darkmode&sanitize=true" align=middle width=19.178115000000002pt height=14.15535pt/>), we get:
 > 
-> <p align="center"><img src="svgs/5a6ef2f98097ac74dd773860ce493761.svg?invert_in_darkmode&sanitize=true" align=middle width=481.7224499999999pt height=58.24764pt/></p>
+> <p align="center"><img src="svgs/f7072c1b2dca6f175a61279865383653.svg?invert_in_darkmode&sanitize=true" align=middle width=446.8728pt height=58.24764pt/></p>
 > 
 > where we call <img src="svgs/28f45976002fbde24198bb5d0102da54.svg?invert_in_darkmode&sanitize=true" align=middle width=89.86296pt height=29.19114pt/> the [Hessian
 > matrix](https://en.wikipedia.org/wiki/Hessian_matrix).  
 > 
 > Applying the differentiation by <img src="svgs/52cdbba1eb4fddc47169867a1330fa0d.svg?invert_in_darkmode&sanitize=true" align=middle width=23.67585pt height=22.46574pt/> we get a system of equations:
 > 
-> <p align="center"><img src="svgs/2df94561e6c203c915f852939b3ab91d.svg?invert_in_darkmode&sanitize=true" align=middle width=320.75505pt height=35.777445pt/></p>
+> <p align="center"><img src="svgs/ed87470f97840403e592e3b0dbcc9874.svg?invert_in_darkmode&sanitize=true" align=middle width=284.07885pt height=35.777445pt/></p>
+>
 > Solving for the change <img src="svgs/3919bbc84b8079e27194efe99a1f6a80.svg?invert_in_darkmode&sanitize=true" align=middle width=23.093729999999997pt height=22.46574pt/> we get:
-> <p align="center"><img src="svgs/4f6caa9a88919c674c7e279727f0c28d.svg?invert_in_darkmode&sanitize=true" align=middle width=238.42005pt height=35.777445pt/></p>
+>
+> <p align="center"><img src="svgs/e8427e251e900e8ad93ce60fcfc63d49.svg?invert_in_darkmode&sanitize=true" align=middle width=203.71725pt height=35.777445pt/></p>
 > 
 > So a _raw_ Newton's method update would be:
 > 
-> <p align="center"><img src="svgs/90a130f831709bf3feb431b84a94c121.svg?invert_in_darkmode&sanitize=true" align=middle width=243.50039999999998pt height=35.777445pt/></p>
+> <p align="center"><img src="svgs/09774f8f24e41784487b9a143d1af738.svg?invert_in_darkmode&sanitize=true" align=middle width=208.7976pt height=35.777445pt/></p>
 > 
 > If our Taylor series approximation was perfect (no high order terms in <img src="svgs/e378afcd7cae11e7306c61a9c35bf6cf.svg?invert_in_darkmode&sanitize=true" align=middle width=19.178115000000002pt height=14.15535pt/>; in
 > otherwords <img src="svgs/84df98c65d88c6adf15d4645ffa25e47.svg?invert_in_darkmode&sanitize=true" align=middle width=13.08219pt height=22.46574pt/> was quadratic), then Newton's method would be perfect: a single
@@ -437,18 +439,18 @@ We'll refer to this as a projection filter acting on the entire vector <img src=
 > The simplest approximation of <img src="svgs/930b956ef51654e0669455a2cdd62fb5.svg?invert_in_darkmode&sanitize=true" align=middle width=14.794559999999999pt height=22.557149999999996pt/> is the identity matrix <img src="svgs/d8471e559d932f20f66bec32f6002e08.svg?invert_in_darkmode&sanitize=true" align=middle width=7.1689859999999985pt height=22.557149999999996pt/>. Plugging this
 > into our truncated Taylor series expansion above, our approximation would read:
 > 
-> <p align="center"><img src="svgs/3dd9fb9e69298032369fa5a788a0371f.svg?invert_in_darkmode&sanitize=true" align=middle width=300.78345pt height=35.777445pt/></p>
+> <p align="center"><img src="svgs/1052ba3603aa9fa87f385e4513ae88a4.svg?invert_in_darkmode&sanitize=true" align=middle width=266.08065pt height=35.777445pt/></p>
 > 
 > and our step reduces to good ol' gradient descent:
 > 
-> <p align="center"><img src="svgs/9419e96ede420bf144ab3a0f38405db7.svg?invert_in_darkmode&sanitize=true" align=middle width=204.37229999999997pt height=35.777445pt/></p>
+> <p align="center"><img src="svgs/8a3398ff4a2ebf53e5aa75646bcd4acc.svg?invert_in_darkmode&sanitize=true" align=middle width=169.6695pt height=35.777445pt/></p>
 > 
 > #### Gauss-Newton
 >
 > Given that we have already computed first derivatives in the Jacobian <img src="svgs/92b02b175485ba3cf5d2e5ad2b4568fe.svg?invert_in_darkmode&sanitize=true" align=middle width=78.66375pt height=33.20559pt/>, an even better approximation for Hessian <img src="svgs/930b956ef51654e0669455a2cdd62fb5.svg?invert_in_darkmode&sanitize=true" align=middle width=14.794559999999999pt height=22.557149999999996pt/> than the
 > identity <img src="svgs/d8471e559d932f20f66bec32f6002e08.svg?invert_in_darkmode&sanitize=true" align=middle width=7.1689859999999985pt height=22.557149999999996pt/> would be to use <img src="svgs/e71c2eb0164135302652c3b5e3ca430a.svg?invert_in_darkmode&sanitize=true" align=middle width=29.640599999999996pt height=27.912719999999997pt/>. The resulting update becomes:
 >
-> <p align="center"><img src="svgs/8ba397bd9812841129ba3231d287f6a8.svg?invert_in_darkmode&sanitize=true" align=middle width=241.2927pt height=34.725404999999995pt/></p>
+> <p align="center"><img src="svgs/ab7eaca599dd66915855897d5d0f514c.svg?invert_in_darkmode&sanitize=true" align=middle width=204.6165pt height=34.725404999999995pt/></p>
 >
 > Unlike <img src="svgs/930b956ef51654e0669455a2cdd62fb5.svg?invert_in_darkmode&sanitize=true" align=middle width=14.794559999999999pt height=22.557149999999996pt/>, <img src="svgs/b166bfa6fb8405dcd97b1c618c8fc258.svg?invert_in_darkmode&sanitize=true" align=middle width=28.715775pt height=27.912719999999997pt/> is easy to compute if we're already computing
 > <img src="svgs/4b89c22bc825ade97f0e007ade8f761b.svg?invert_in_darkmode&sanitize=true" align=middle width=9.77163pt height=22.557149999999996pt/>. It is guaranteed to be [positive
@@ -480,7 +482,7 @@ immediately obvious how to determine its derivatives. However, a derivative is
 nothing more than the limit of a small change output divided by a small change
 in the input:
 
-<p align="center"><img src="svgs/f5b3db30acc4b16dff9a92781a5e219f.svg?invert_in_darkmode&sanitize=true" align=middle width=224.51055pt height=34.725404999999995pt/></p>
+<p align="center"><img src="svgs/496324dc70fde38b9124864829680fa7.svg?invert_in_darkmode&sanitize=true" align=middle width=224.51055pt height=34.725404999999995pt/></p>
 
 where <img src="svgs/165578d0076311fa849ec1a5bcc4c619.svg?invert_in_darkmode&sanitize=true" align=middle width=63.440189999999994pt height=29.19114pt/> is a vector of zeros except a 1 at location <img src="svgs/36b5afebdba34564d884d347484ac0c7.svg?invert_in_darkmode&sanitize=true" align=middle width=7.710483pt height=21.68331pt/>.
 
@@ -529,7 +531,7 @@ Whether we're using gradient descent, Newton's method or Gauss-Newton, we a
 generally _attempting_ improving our guess by iteratively moving in a descent
 direction <img src="svgs/0f0383e9a0c12009f46abaadace3108c.svg?invert_in_darkmode&sanitize=true" align=middle width=22.88814pt height=22.46574pt/>, followed by projecting onto constraints:
 
-<p align="center"><img src="svgs/0ec8258ea51b223aa975915910f5f3de.svg?invert_in_darkmode&sanitize=true" align=middle width=134.006565pt height=16.438356pt/></p>
+<p align="center"><img src="svgs/8f0731d2d7668cc844fd16d7b502bec2.svg?invert_in_darkmode&sanitize=true" align=middle width=134.006565pt height=16.438356pt/></p>
 
 Despite our best efforts, this step is not guaranteed to actually decrease
 our energy <img src="svgs/84df98c65d88c6adf15d4645ffa25e47.svg?invert_in_darkmode&sanitize=true" align=middle width=13.08219pt height=22.46574pt/>. We can think of the descent _direction_ <img src="svgs/0f0383e9a0c12009f46abaadace3108c.svg?invert_in_darkmode&sanitize=true" align=middle width=22.88814pt height=22.46574pt/> as defining a line (or really
