@@ -68,7 +68,7 @@ angles](https://upload.wikimedia.org/wikipedia/commons/9/97/Odessa_TX_Oil_Well_w
 #### 2. Rest Bone
 
 To assemble a skeleton inside our shape will we map each bone from its
-[canonical bone][1.canonicalbone] to its position _and orientation_ in the
+[canonical bone](#1-canonical-bone) to its position _and orientation_ in the
 undeformed model. Maintaining the rigidity of the bone, this means for each bone
 there's a rigid transformation $\widehat{\mathbf{T}} = (\widehat{\mathbf{R}} \quad \widehat{\mathbf{t}} ) \in 
 \mathbf{R}^{3\times 4}$ that places its tail and tip to the desired positions in the model. 
@@ -174,7 +174,7 @@ the knee, then twisting and bending at the parent hip bone will naturally
 _compose_ with the knee bend.
 
 It is convenient to express the relative rotations of each bone in the
-[canonical frame][1.canonicalbone]. We can utilize canonical twist-bend-twist
+[canonical frame](#1-canonical-bone). We can utilize canonical twist-bend-twist
 rotations (three [Euler angles][eulerangles], $\theta _1 ,\theta _2 ,\theta _3 $). Each bone's rotation
 is conducted in its canonical frame and then _brought_ through the rest frame
 through a change of coordinates:
@@ -686,7 +686,7 @@ $$
 
 Linear blend skinning has many defects. Good "rigging artists" can mitigate
 these by carefully painting (yes, painting) weight functions and position the
-[rest bones][2.restbone]. However, some of the linear blend skinning defects are
+[rest bones](#2-rest-bone). However, some of the linear blend skinning defects are
 theoretical: most notably problems that occur by averaging
 rotations as matrices. 
 
