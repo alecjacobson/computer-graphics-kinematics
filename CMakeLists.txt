@@ -4,10 +4,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 ### libIGL options: choose between header only and compiled static library
 option(LIBIGL_USE_STATIC_LIBRARY     "Use libigl as static library" OFF)
-option(LIBIGL_WITH_OPENGL            "Use OpenGL"         ON)
-option(LIBIGL_WITH_OPENGL_GLFW       "Use GLFW"           ON)
-
-find_package(LIBIGL REQUIRED QUIET)
+option(LIBIGL_GLFW "Build target igl::glfw" ON)
+include(libigl)
 
 # Add your project files
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include/")
@@ -20,4 +18,4 @@ endif()
 
 add_executable(${PROJECT_NAME} "main.cpp" ${SRCFILES})
 target_include_directories(${PROJECT_NAME} SYSTEM PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/shared/json)
-target_link_libraries(${PROJECT_NAME} igl::core igl::opengl igl::opengl_glfw )
+target_link_libraries(${PROJECT_NAME} igl::core igl::glfw )
